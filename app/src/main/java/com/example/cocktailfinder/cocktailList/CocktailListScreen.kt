@@ -61,7 +61,7 @@ fun CocktailListScreen(navController: NavController,cocktailListViewModel:Cockta
                         .padding(top = 10.dp)
                 )
             }
-            list?.let { CocktailDetailScreen(list = it, navController = navController) }
+            list?.let { CocktailDetailScreen(list = it, clickOnProfile = {id-> navController.navigate("cocktailDetails/$id")}) }
         }
 
 
@@ -71,7 +71,7 @@ fun CocktailListScreen(navController: NavController,cocktailListViewModel:Cockta
 
 
 @Composable
-fun CocktailDetailScreen(list :CocktailList, navController: NavController){
+fun CocktailDetailScreen(list :CocktailList, clickOnProfile:(id:String) ->Unit){
     if (list.drinks != null) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
@@ -88,7 +88,7 @@ fun CocktailDetailScreen(list :CocktailList, navController: NavController){
                 .padding(5.dp)
                 .clickable(
                     enabled = true,
-                    onClick = { navController.navigate("cocktailDetails/${item.idDrink}") })
+                    onClick = {clickOnProfile(item.idDrink.toString()) })
             ) {
 
             SubcomposeAsyncImage(model = item.strDrinkThumb+"/preview", contentDescription = null, loading = {
